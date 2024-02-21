@@ -1,10 +1,22 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 
-import { CoffeesService } from "./coffees.service";
+import { CoffeesService } from './coffees.service';
+import { CreateCoffeeDto } from './dto/create-coffee.dto/create-coffee.dto';
+import { UpdateCoffeeDto } from './dto/update-coffee.dto/update-coffee.dto';
 
 @Controller('coffees')
 export class CoffeesController {
-  constructor(private readonly coffeeService: CoffeesService) {}
+  constructor(private readonly coffeeService: CoffeesService) {
+  }
 
   @Get()
   findAll() {
@@ -18,18 +30,17 @@ export class CoffeesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.coffeeService.findOne(id);
+  findOne(@Param('id') id: number) {
+    return this.coffeeService.findOne('' + id);
   }
 
   @Post()
-  @HttpCode(HttpStatus.GONE)
-  create(@Body() body) {
-    return this.coffeeService.create(body);
+  create(@Body() createCoffeeDto: CreateCoffeeDto) {
+    return this.coffeeService.create(createCoffeeDto);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() body) {
+  update(@Param('id') id: string, @Body() body: UpdateCoffeeDto) {
     return this.coffeeService.update(id, body);
   }
 

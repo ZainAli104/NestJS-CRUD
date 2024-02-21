@@ -1,16 +1,16 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { Coffee } from "./entity/coffee.entity";
+import { Coffee } from './entity/coffee.entity';
 
 @Injectable()
 export class CoffeesService {
   private coffees: Coffee[] = [
     {
       id: 1,
-      name: "Laty",
-      brand: "kuch bhi",
-      flavors: ["a", "b", "c"]
-    }
+      name: 'Laty',
+      brand: 'kuch bhi',
+      flavors: ['a', 'b', 'c'],
+    },
   ];
 
   finalAll() {
@@ -18,7 +18,7 @@ export class CoffeesService {
   }
 
   findOne(id: string) {
-    const coffee = this.coffees.find(i => i.id === +id);
+    const coffee = this.coffees.find((i) => i.id === +id);
     if (!coffee) {
       throw new NotFoundException(`Coffee #${id} not found`);
     }
@@ -38,7 +38,7 @@ export class CoffeesService {
   }
 
   remove(id: string) {
-    const coffeeIndex = this.coffees.findIndex(item => item.id === +id);
+    const coffeeIndex = this.coffees.findIndex((item) => item.id === +id);
     if (coffeeIndex >= 0) {
       this.coffees.splice(coffeeIndex, 1);
     }
