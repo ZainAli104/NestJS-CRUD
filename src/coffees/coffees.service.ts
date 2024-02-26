@@ -20,8 +20,9 @@ export class CoffeesService {
     private readonly connection: Connection,
     private readonly configService: ConfigService,
   ) {
-    const databaseHost = this.configService.get<string>('DATABASE_NAME');
-    console.log(databaseHost);
+    const databaseName = this.configService.get<string>('DATABASE_NAME');
+    const databaseHost = this.configService.get('database.host');
+    console.log(databaseName, databaseHost);
   }
 
   private async preloadFlavorByName(name: string): Promise<Flavor> {
