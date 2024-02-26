@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
+import * as Joi from '@hapi/joi';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -9,13 +11,21 @@ import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      validationSchema: Joi.object({
+        DATABASE_HOST: Joi.required(),
+        DATABASE_USER: Joi.required(),
+        DATABASE_PASSWORD: Joi.required(),
+        DATABASE_NAME: Joi.required(),
+      }),
+    }),
     CoffeesModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'ep-late-brook-a1dr84d0.ap-southeast-1.aws.neon.tech',
-      username: 'uneebbhutta115',
-      password: 'Y4AefS3uNjQo',
-      database: 'learning',
+      host: process.env.DATABASE_HOST,
+      username: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME,
       autoLoadEntities: true,
       synchronize: true,
       ssl: true, // Enable SSL connection
@@ -26,9 +36,10 @@ import { DatabaseModule } from './database/database.module';
       },
     }),
     CoffeeRatingModule,
-    DatabaseModule
+    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+}
