@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoffeesModule } from './coffees/coffees.module';
+import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { CoffeesModule } from './coffees/coffees.module';
           rejectUnauthorized: false, // This might be required depending on your server's SSL configuration
         },
       },
-    })
+    }),
+    CoffeeRatingModule
   ],
   controllers: [AppController],
   providers: [AppService],
