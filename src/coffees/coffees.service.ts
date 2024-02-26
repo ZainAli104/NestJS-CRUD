@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
+import { ConfigService } from '@nestjs/config';
 
 import { Coffee } from './entity/coffee.entity';
 import { Flavor } from './entity/flavor.entity';
@@ -17,8 +18,10 @@ export class CoffeesService {
     @InjectRepository(Flavor)
     private readonly flavorRepository: Repository<Flavor>,
     private readonly connection: Connection,
+    private readonly configService: ConfigService,
   ) {
-    console.log('CoffeesService instantiated');
+    const databaseHost = this.configService.get<string>('DATABASE_NAME');
+    console.log(databaseHost);
   }
 
   private async preloadFlavorByName(name: string): Promise<Flavor> {
