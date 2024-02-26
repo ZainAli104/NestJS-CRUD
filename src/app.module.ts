@@ -10,10 +10,10 @@ import { CoffeesModule } from './coffees/coffees.module';
     CoffeesModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'ep-sparkling-dream-a14kyaiu.ap-southeast-1.aws.neon.tech',
-      username: 'zainfiverr44',
-      password: 'FEkMJcv5w2fA',
-      database: 'storedb',
+      host: 'ep-late-brook-a1dr84d0.ap-southeast-1.aws.neon.tech',
+      username: 'uneebbhutta115',
+      password: 'Y4AefS3uNjQo',
+      database: 'learning',
       autoLoadEntities: true,
       synchronize: true,
       ssl: true, // Enable SSL connection
