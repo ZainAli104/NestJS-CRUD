@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
 
@@ -9,7 +9,7 @@ import { UpdateCoffeeDto } from './dto/update-coffee.dto/update-coffee.dto';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto/pagination-query.dto';
 import { Event } from '../events/entities/event.entity';
 
-@Injectable()
+@Injectable({ scope: Scope.DEFAULT }) // scope is use for the singleton pattern
 export class CoffeesService {
   constructor(
     @InjectRepository(Coffee)
@@ -17,7 +17,9 @@ export class CoffeesService {
     @InjectRepository(Flavor)
     private readonly flavorRepository: Repository<Flavor>,
     private readonly connection: Connection,
-  ) {}
+  ) {
+    console.log('CoffeesService instantiated');
+  }
 
   private async preloadFlavorByName(name: string): Promise<Flavor> {
     const existingFlavor = await this.flavorRepository.findOne(
