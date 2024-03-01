@@ -1,7 +1,7 @@
-import { Injectable, NotFoundException, Scope } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
-import { ConfigService } from '@nestjs/config';
+import { ConfigService, ConfigType } from '@nestjs/config';
 
 import { Coffee } from './entity/coffee.entity';
 import { Flavor } from './entity/flavor.entity';
@@ -9,6 +9,7 @@ import { CreateCoffeeDto } from './dto/create-coffee.dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto/update-coffee.dto';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto/pagination-query.dto';
 import { Event } from '../events/entities/event.entity';
+import coffeesConfig from './config/coffees.config';
 
 @Injectable({ scope: Scope.DEFAULT }) // scope is use for the singleton pattern
 export class CoffeesService {
@@ -19,10 +20,12 @@ export class CoffeesService {
     private readonly flavorRepository: Repository<Flavor>,
     private readonly connection: Connection,
     private readonly configService: ConfigService,
+    @Inject(coffeesConfig.KEY)
+    private readonly coffeesConfiguration: ConfigType<typeof coffeesConfig>, // this is use to load configs variables
   ) {
     const databaseName = this.configService.get<string>('DATABASE_NAME');
     const databaseHost = this.configService.get('database.host');
-    console.log(databaseName, databaseHost);
+    console.log(databaseName, databaseHost, coffeesConfiguration.foo);
   }
 
   private async preloadFlavorByName(name: string): Promise<Flavor> {
